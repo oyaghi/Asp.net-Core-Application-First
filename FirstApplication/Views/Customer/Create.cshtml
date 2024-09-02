@@ -1,0 +1,30 @@
+﻿@model Customer 
+
+
+<form asp-controller="Customer" asp-action="Create" method="POST">
+    <div >
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" required />
+        <span asp-validation-for="FirstName" ></span>  @* To show the validation error from the controller here  *@
+    </div>
+
+    <div >
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" class="form-control" required />
+        <span asp-validation-for="LastName"></span>
+    </div>
+
+    <div >
+        <label asp-for="Address"></label>
+        <input asp-for="Address" class="form-control" required />
+        <span asp-validation-for="Address"></span>
+    </div>
+
+    <div  >
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" class="form-control" required />
+        <span asp-validation-for="Phone"></span>
+    </div>
+    <br />
+    <button type="submit" >Save</button>
+</form>

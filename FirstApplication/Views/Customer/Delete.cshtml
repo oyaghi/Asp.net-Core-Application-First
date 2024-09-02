@@ -1,0 +1,36 @@
+﻿@model Customer 
+
+
+
+
+<h2>Delete Customer</h2>
+
+<form asp-action="Delete" method="POST">
+    <div>
+        <label asp-for="FirstName"></label>  @* for showing the related data from the ViewData dict *@
+        <input asp-for="FirstName" disabled />
+     
+    </div>
+    <div>
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" disabled />
+
+    </div>
+
+    <div>
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" disabled />
+
+    </div>
+    <div>
+        <label asp-for="Address"></label>
+        <input asp-for="Address" disabled />
+
+    </div>
+    <input type="hidden" asp-for="Id" />
+    <div>
+        <button type="submit">Delete</button>
+        <a asp-action="Index" asp-controller="Customer">Back to List</a>
+    </div>
+</form>
+
