@@ -68,20 +68,16 @@ namespace FirstApplication.Controllers
 
 
         [HttpPost]
-        public IActionResult Edit(UpdateCustomerCommand obj)
-
+        public IActionResult Edit(UpdateCustomerCommand command)
         {
-
-
-
-            var OldCustomer = _db.Customers.Find(obj.Id);
+            var customer = _db.Customers.FirstOrDefault(c=> c.Id == command.Id);
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(command);
             }
-            if (obj.Phone != OldCustomer.Phone)
+            if (command.Phone != customer.Phone)
             {
-                if (_db.Customers.Any(c => c.Phone == obj.Phone))
+                if (_db.Customers.Any(c => c.Phone == command.Phone))
                 {
                     ModelState.AddModelError("Phone", "The phone number is already in use.");
                     return View();
@@ -90,12 +86,12 @@ namespace FirstApplication.Controllers
             }
 
 
-            var NewCustomer = new Customer();
-            NewCustomer.Address = obj.Address;
-            NewCustomer.Phone = obj.Phone;
-            NewCustomer.FirstName = obj.FirstName;
-            NewCustomer.LastName = obj.LastName;
-            _db.Update(NewCustomer);
+     
+            customer.Address = command.Address;
+            customer.Phone = command.Phone;
+            customer.FirstName = command.FirstName;
+            customer.LastName = command.LastName;
+            _db.Update(customer);
             _db.SaveChanges();
             return RedirectToAction("Index", "Customer");
 
