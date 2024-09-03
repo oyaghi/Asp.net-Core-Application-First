@@ -1,0 +1,26 @@
+﻿@using FirstApplication.Commands;
+@model LoginCustomerCommand
+
+<form asp-controller="Order" asp-action="Login" method="post">
+   
+    <div>
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" required/>
+        <span asp-validation-for="FirstName"></span>
+    </div>
+
+    <div>
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" required />
+        <span asp-validation-for="Phone"></span>
+    </div>
+
+
+    <div>
+        <input type="submit" value="Login" />
+    </div>
+    <br>
+    <div>
+        @ViewData["ErrorMessage"]
+    </div>
+</form>

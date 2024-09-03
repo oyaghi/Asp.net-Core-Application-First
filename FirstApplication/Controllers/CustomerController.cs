@@ -36,23 +36,18 @@ namespace FirstApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(!_db.Customers.Any(c=> c.Phone == obj.Phone)) {
-                    var NewCustomer = new Customer();
-                    NewCustomer.Address = obj.Address;
-                    NewCustomer.Phone = obj.Phone;
-                    NewCustomer.FirstName = obj.FirstName;
-                    NewCustomer.LastName = obj.LastName;
-                    _db.Customers.Add(NewCustomer);
-                    _db.SaveChanges();
-                    return RedirectToAction("Index", "Customer");
-
-                }
-                ModelState.AddModelError("Phone", "A customer with this phone number already exists.");
-
+                var NewCustomer = new Customer();
+                NewCustomer.Address = obj.Address;
+                NewCustomer.Phone = obj.Phone;
+                NewCustomer.FirstName = obj.FirstName;
+                NewCustomer.LastName = obj.LastName;
+                _db.Customers.Add(NewCustomer);
+                _db.SaveChanges();
+                return RedirectToAction("Index", "Customer");
 
             }
+            return View(obj); // will add the errors to the obj so when returning it, it will display the errors, and it will populate the input fields 
 
-            return View();
         }
 
         // Create End
@@ -61,7 +56,7 @@ namespace FirstApplication.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var customer = _db.Customers.Find(id);
+            var customer = _db.Customers.FirstOrDefault(c => c.Id == id); // using FirstOrDefault is better perforamnce (Select TOP 1 * From Customers) something like that 
             if (customer == null)
             {
                 return NotFound();
@@ -76,6 +71,9 @@ namespace FirstApplication.Controllers
         public IActionResult Edit(UpdateCustomerCommand obj)
 
         {
+
+
+
             var OldCustomer = _db.Customers.Find(obj.Id);
             if (!ModelState.IsValid)
             {
@@ -91,7 +89,7 @@ namespace FirstApplication.Controllers
                 }
             }
 
-            
+
             var NewCustomer = new Customer();
             NewCustomer.Address = obj.Address;
             NewCustomer.Phone = obj.Phone;
@@ -100,6 +98,7 @@ namespace FirstApplication.Controllers
             _db.Update(NewCustomer);
             _db.SaveChanges();
             return RedirectToAction("Index", "Customer");
+
         }
 
         // Edit End

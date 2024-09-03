@@ -1,0 +1,29 @@
+﻿@model Order
+
+
+
+
+<h2>Delete Customer</h2>
+
+<form asp-action="Delete" method="POST">
+
+    <div>
+        <label asp-for="OrderPlaced"></label>
+        <input asp-for="OrderPlaced" disabled />
+
+    </div>
+
+    <div>
+        <label asp-for="OrderFulfilled"></label> 
+        <input asp-for="OrderFulfilled" disabled />
+
+    </div>
+   
+ 
+    <input type="hidden" asp-for="Id" />
+    <div>
+        <button type="submit">Delete</button>
+        <a asp-action="Index" asp-controller="Customer">Back to List</a>
+    </div>
+</form>
+

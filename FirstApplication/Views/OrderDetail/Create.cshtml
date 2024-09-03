@@ -1,0 +1,15 @@
+﻿@using FirstApplication.Commands;
+@model CreateOrderDetailCommand
+
+
+<form asp-controller="OrderDetail" asp-action="Create" method="POST">
+    <div>
+        <label asp-for="Quantity"></label>
+        <input asp-for="Quantity" class="form-control" required />
+        <span asp-validation-for="Quantity"></span>  
+    </div>
+
+
+    <br />
+    <button type="submit">Save</button>
+</form>

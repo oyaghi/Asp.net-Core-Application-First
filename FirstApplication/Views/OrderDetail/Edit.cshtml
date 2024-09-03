@@ -1,0 +1,22 @@
+﻿@using FirstApplication.Commands;
+@model UpdateOrderDetailCommand
+
+
+
+<h2>Edit Order Detail</h2>
+
+<form asp-action="Edit" method="POST">
+    <div>
+        <label asp-for="Quantity"></label>
+        <input asp-for="Quantity" />
+        <span asp-validation-for="Quantity"> </span>
+    </div>
+  
+
+    <input type="hidden" asp-for="Id" />
+    <div>
+        <button type="submit">Save</button>
+        <a asp-action="Index" asp-controller="Order">Back to List</a>
+    </div>
+</form>
+

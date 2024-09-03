@@ -3,33 +3,44 @@
 
 
 
-    <a asp-controller="Order" asp-action="Create">Create New Order</a>
-    <table>
+<a asp-controller="Order" asp-action="Create">Create New Order</a>
+<table>
+    <tr>
+        <th>Order Placed</th>
+        <th>Order Fulfilled</th>
+        <th>Quantity</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Phone</th>
+        <th>Edit</th>
+        <th>Delete</th>
+        <th>Add Order Detail</th>
+        <th>Edit Order Detail</th>
+
+
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        var firstOrderDetail = item.OrderDetail.FirstOrDefault();
+
         <tr>
-            <th>Order Placed</th>
-            <th>Order Fulfilled</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Phone</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <td>@item.OrderPlaced</td>
+            <td>@item.OrderFulfilled</td>
+            <td>@(firstOrderDetail != null ? firstOrderDetail.Quantity.ToString() : "N/A")</td> <!-- Display Quantity or "N/A" if no OrderDetail exists -->
+            <td>@item.Customer.FirstName</td>
+            <td>@item.Customer.LastName</td>
+            <td>@item.Customer.Phone</td>
+            <td><a asp-controller="Order" asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
+            <td><a asp-controller="Order" asp-action="Delete" asp-route-id="@item.Id">Delete</a></td>
+            <td><a asp-controller="OrderDetail" asp-action="Create" asp-route-id="@item.Id">Add Order Detail</a></td>
+            <td><a asp-controller="OrderDetail" asp-action="Edit" asp-route-id=@(firstOrderDetail.Id)>Edit Order Detail</a></td>
+
+
+
 
         </tr>
+    }
 
-
-        @foreach (var item in Model)  
-        {
-            <tr>
-                <td>@item.OrderPlaced</td>
-                <td>@item.OrderFulfilled</td>
-                <td>@item.Customer.FirstName</td>
-                <td>@item.Customer.LastName</td>
-                <td>@item.Customer.Phone</td>
-                <td><a asp-controller="Order" asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
-                <td><a asp-controller="Order" asp-action="Delete" asp-route-id="@item.Id">Delete</a></td>
-
-
-            </tr>
-        }
-
-    </table>
+</table>

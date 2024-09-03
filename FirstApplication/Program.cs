@@ -5,10 +5,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//Database Config
 builder.Services.AddDbContext<TestingDbContext>(option=>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("conn"));
 });
+
+// Session Config 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(15); //Idel time before session dies 
+    //options.Cookie.HttpOnly = true; //ensures that the cookie is accessible only to the server side and not available through client-side scripts (e.g., JavaScript).
+    //options.Cookie.IsEssential = true; 
+
+}
+);  
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,6 +34,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+//Session Config
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
