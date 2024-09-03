@@ -110,7 +110,29 @@ namespace FirstApplication.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult Delete(int id) {
 
+
+
+            var orderDetail = _db.OrderDetails.FirstOrDefault(o => o.Id == id);
+            if (orderDetail == null)
+            {
+                return NotFound();
+            }
+        
+            return View(orderDetail);
+        
+        }
+
+
+        [HttpPost]
+        public IActionResult Delete(OrderDetail obj)
+        {
+            _db.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index", "Order");
+        }
 
 
 

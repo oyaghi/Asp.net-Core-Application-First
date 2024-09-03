@@ -20,10 +20,9 @@
 
     </tr>
 
-
     @foreach (var item in Model)
     {
-        var firstOrderDetail = item.OrderDetail.FirstOrDefault();
+        var firstOrderDetail = item.OrderDetail != null && item.OrderDetail.Any() ? item.OrderDetail.FirstOrDefault() : null;
 
         <tr>
             <td>@item.OrderPlaced</td>
@@ -35,12 +34,16 @@
             <td><a asp-controller="Order" asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
             <td><a asp-controller="Order" asp-action="Delete" asp-route-id="@item.Id">Delete</a></td>
             <td><a asp-controller="OrderDetail" asp-action="Create" asp-route-id="@item.Id">Add Order Detail</a></td>
-            <td><a asp-controller="OrderDetail" asp-action="Edit" asp-route-id=@(firstOrderDetail.Id)>Edit Order Detail</a></td>
-
-
-
-
+            <td>
+                @(firstOrderDetail != null ?
+                    Html.ActionLink("Edit Order Detail", "Edit", "OrderDetail", new { id = firstOrderDetail.Id }, null) : "N/A")
+            </td>
+            <td>
+                @(firstOrderDetail != null ?
+                    Html.ActionLink("Delete Order Detail", "Delete", "OrderDetail", new { id = firstOrderDetail.Id }, null) : "N/A")
+            </td>
         </tr>
     }
+
 
 </table>
