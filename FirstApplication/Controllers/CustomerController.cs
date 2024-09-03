@@ -36,17 +36,23 @@ namespace FirstApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var NewCustomer = new Customer();
-                NewCustomer.Address = obj.Address;
-                NewCustomer.Phone = obj.Phone;
-                NewCustomer.FirstName = obj.FirstName;
-                NewCustomer.LastName = obj.LastName;
-                _db.Customers.Add(NewCustomer);
-                _db.SaveChanges();
+                if(!_db.Customers.Any(c=> c.Phone == obj.Phone)) {
+                    var NewCustomer = new Customer();
+                    NewCustomer.Address = obj.Address;
+                    NewCustomer.Phone = obj.Phone;
+                    NewCustomer.FirstName = obj.FirstName;
+                    NewCustomer.LastName = obj.LastName;
+                    _db.Customers.Add(NewCustomer);
+                    _db.SaveChanges();
+                    return RedirectToAction("Index", "Customer");
+
+                }
+                ModelState.AddModelError("Phone", "A customer with this phone number already exists.");
+
+
             }
 
-            return RedirectToAction("Index", "Customer");
-
+            return View();
         }
 
         // Create End
@@ -67,10 +73,31 @@ namespace FirstApplication.Controllers
 
 
         [HttpPost]
-        public IActionResult Edit(Customer obj)
+        public IActionResult Edit(UpdateCustomerCommand obj)
 
         {
-            _db.Update(obj);
+            var OldCustomer = _db.Customers.Find(obj.Id);
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            if (obj.Phone != OldCustomer.Phone)
+            {
+                if (_db.Customers.Any(c => c.Phone == obj.Phone))
+                {
+                    ModelState.AddModelError("Phone", "The phone number is already in use.");
+                    return View();
+
+                }
+            }
+
+            
+            var NewCustomer = new Customer();
+            NewCustomer.Address = obj.Address;
+            NewCustomer.Phone = obj.Phone;
+            NewCustomer.FirstName = obj.FirstName;
+            NewCustomer.LastName = obj.LastName;
+            _db.Update(NewCustomer);
             _db.SaveChanges();
             return RedirectToAction("Index", "Customer");
         }

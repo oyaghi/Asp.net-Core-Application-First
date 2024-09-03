@@ -1,5 +1,4 @@
-﻿using FirstApplication.Common;
-using FirstApplication.Data;
+﻿using FirstApplication.Data;
 using FirstApplication.Models;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -20,7 +19,7 @@ namespace FirstApplication.Commands
         [MaxLength(100)]
         [MinLength(10)]
         public string? Address { get; set; } = null!;
-
+        [MinLength(10)]
         [MaxLength(10)]
         [Phone]
         public string Phone { get; set; } = null!;
