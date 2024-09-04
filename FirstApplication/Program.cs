@@ -1,14 +1,15 @@
 using FirstApplication.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-//Database Config
+//Database Config with lazy loading 
 builder.Services.AddDbContext<TestingDbContext>(option=>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("conn"));
+    option.UseSqlServer(builder.Configuration.GetConnectionString("conn")).UseLazyLoadingProxies();
 });
 
 // Session Config 
@@ -20,7 +21,9 @@ builder.Services.AddSession(options =>
     //options.Cookie.IsEssential = true; 
 
 }
-);  
+);
+
+
 
 var app = builder.Build();
 

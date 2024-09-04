@@ -1,0 +1,21 @@
+﻿@using FirstApplication.Commands
+@model CreateProductCommand 
+
+
+<form asp-controller="Product" asp-action="Create" method="POST">
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" required />
+        <span asp-validation-for="Name"></span>  
+    </div>
+
+    <div>
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" required />
+        <span asp-validation-for="Price"></span>
+    </div>
+
+    
+    <br />
+    <button type="submit">Save</button>
+</form>

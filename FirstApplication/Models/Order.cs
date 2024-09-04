@@ -9,8 +9,8 @@ namespace FirstApplication.Models
         public DateTime OrderPlaced { get; set; }
         public DateTime? OrderFulfilled  { get; set; }
         public int CustomerId { get; set; }  // FK  It detects the FK based on Naming Coventions 
-        public Customer Customer { get; set; } //. Navigation Property that holds the related Customer Object
-        public ICollection<OrderDetail> OrderDetail { get; set; }
+        public virtual Customer Customer { get; set; } //. Navigation Property that holds the related Customer Object
+        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
 
 
 

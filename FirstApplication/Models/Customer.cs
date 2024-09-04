@@ -24,6 +24,6 @@ namespace FirstApplication.Models
         public string Phone { get; set; } = null!;
 
 
-        public ICollection<Order> Orders { get; set; } = null!;
+        public virtual ICollection<Order> Orders { get; set; } = null!;
     }
 }
