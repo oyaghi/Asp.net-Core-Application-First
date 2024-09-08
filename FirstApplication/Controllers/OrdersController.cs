@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FirstApplication.Controllers
 {
-    public class OrderController : Controller
+    public class OrdersController : Controller
     {
         private readonly TestingDbContext _db;
-        public OrderController(TestingDbContext db)
+        public OrdersController(TestingDbContext db)
         {
             _db = db;
         }

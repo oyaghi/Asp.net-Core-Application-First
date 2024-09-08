@@ -1,12 +1,11 @@
 ﻿@using FirstApplication.Commands
-@model CreateProductCommand 
+@model CreateProductCommand
 
-
-<form asp-controller="Product" asp-action="Create" method="POST">
+<form id="create-product-form" asp-controller="Product" asp-action="Create" method="POST">
     <div>
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" required />
-        <span asp-validation-for="Name"></span>  
+        <span asp-validation-for="Name"></span>
     </div>
 
     <div>
@@ -15,7 +14,42 @@
         <span asp-validation-for="Price"></span>
     </div>
 
-    
     <br />
-    <button type="submit">Save</button>
+    <button type="submit" id="add-product-button">Save</button>
 </form>
+
+<script>
+    $(document).ready(function () {
+       
+        $('#create-product-form').submit(function (event) {
+            event.preventDefault(); 
+
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                type: form.attr('method'),
+                data: form.serialize(), 
+                success: function (result) {
+                    refreshProductsList(); 
+                    alert('Product added successfully.');
+                },
+                error: function () {
+                    alert('Error while adding the product.');
+                }
+            });
+        });
+    });
+
+    function refreshProductsList() {
+        $.ajax({
+            url: '@Url.Action("GetProducts", "Product")',
+            type: 'GET',
+            success: function (result) {
+                $('#products-list').html(result);
+            },
+            error: function () {
+                alert('Error refreshing products.');
+            }
+        });
+    }
+</script>

@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 namespace FirstApplication.Controllers
 {
-    public class CustomerController : Controller
+    public class CustomersController : Controller
     {
         // Customer Controller Constructure Start
         private readonly TestingDbContext _db;
-        public CustomerController(TestingDbContext db)
+        public CustomersController(TestingDbContext db)
         {
             _db = db;
         }

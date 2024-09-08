@@ -1,29 +1,75 @@
-﻿@model List<Product>
+﻿@model IEnumerable<Product>
 
-
-
+@{
+    // Calculate total number of pages
+    int totalPages = (int)Math.Ceiling(ViewBag.TotalItems / (double)ViewBag.PageSize);
+    int currentPage = ViewBag.CurrentPage;
+}
 
 <a asp-controller="Product" asp-action="Create">Create New Product</a>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Price</th>
-       
+<div id="products-list">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 
-    </tr>
+<nav>
+    <ul class="pagination">
+        @if (currentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage - 1)" asp-route-pageSize="@ViewBag.PageSize">Previous</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+            </li>
+        }
 
-    @foreach (var item in Model)
-    {
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            if (i == currentPage)
+            {
+                <li class="page-item active">
+                    <span class="page-link">@i</span>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@i" asp-route-pageSize="@ViewBag.PageSize">@i</a>
+                </li>
+            }
+        }
 
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.Price</td>
-            <td><a asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
-            <td><a asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Delete</a></td>
-           
-        </tr>
-    }
-
-
-</table>
+        @if (currentPage < totalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage + 1)" asp-route-pageSize="@ViewBag.PageSize">Next</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <span class="page-link">Next</span>
+            </li>
+        }
+    </ul>
+</nav>
